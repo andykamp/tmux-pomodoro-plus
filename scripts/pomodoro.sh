@@ -125,7 +125,7 @@ pomodoro_start() {
 	clean_env
 	mkdir -p $POMODORO_DIR
 	write_to_file "$(get_seconds)" "$POMODORO_FILE"
-	write_to_file "$(pomodoro_mins) ${pomodoro_break_mins}" "$POMODORO_INFO_FILE"
+	write_to_file "$(get_pomodoro_duration) $(get_pomodoro_break)" "$POMODORO_INFO_FILE"
 
 	send_notification "🍅 Pomodoro started!" "Your Pomodoro is underway"
 	if_inside_tmux && tmux refresh-client -S

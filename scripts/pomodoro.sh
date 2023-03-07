@@ -3,6 +3,7 @@
 CURRENT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 POMODORO_DIR="/tmp"
 POMODORO_FILE="$POMODORO_DIR/pomodoro.txt"
+POMODORO_INFO_FILE="$POMODORO_DIR/pomodoro_info.txt"
 POMODORO_STATUS_FILE="$POMODORO_DIR/pomodoro_status.txt"
 POMODORO_MINS_FILE="$CURRENT_DIR/user_mins.txt"
 POMODORO_BREAK_MINS_FILE="$CURRENT_DIR/user_break_mins.txt"
@@ -108,6 +109,7 @@ send_notification() {
 clean_env() {
 	remove_file "$POMODORO_FILE"
 	remove_file "$POMODORO_STATUS_FILE"
+	remove_file "$POMODORO_INFO_FILE"
 }
 
 pomodoro_toggle() {
@@ -123,6 +125,7 @@ pomodoro_start() {
 	clean_env
 	mkdir -p $POMODORO_DIR
 	write_to_file "$(get_seconds)" "$POMODORO_FILE"
+	write_to_file "$(pomodoro_mins) ${pomodoro_break_mins}" "$POMODORO_INFO_FILE"
 
 	send_notification "🍅 Pomodoro started!" "Your Pomodoro is underway"
 	if_inside_tmux && tmux refresh-client -S
